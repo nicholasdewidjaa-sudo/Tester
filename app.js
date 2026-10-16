@@ -23,13 +23,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // KONFIGURASI FIREBASE ANDA
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyA7olZ1cQCq-6U11j38ge5cR0guCGAJazg", 
-    authDomain: "belajar-7c6dd.firebaseapp.com", 
-    projectId: "belajar-7c6dd", 
-    storageBucket: "belajar-7c6dd.firebasestorage.app", 
-    messagingSenderId: "469648370922", 
-    appId: "1:469648370922:web:085932423a3abe4fd67b93"
+  apiKey: "AIzaSyClAb67oUox356bS73dryCxlpoTSUwIZE0",
+  authDomain: "project-1-3ad32.firebaseapp.com",
+  projectId: "project-1-3ad32",
+  storageBucket: "project-1-3ad32.firebasestorage.app",
+  messagingSenderId: "1000149111658",
+  appId: "1:1000149111658:web:0bba2ebdc0dd0b93064b13",
+  measurementId: "G-VX6MMFZTQX"
 };
 
 const app = initializeApp(firebaseConfig);
