@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Absensi Terpadu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HALAMAN LOGIN -->
+    <div id="loginSection" class="container">
+        <div class="card login-card">
+            <h2>Login Sistem Absensi</h2>
+            <p>Masukkan email dan password akun Anda.</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email Pengguna</label>
+                    <input type="email" id="loginEmail" placeholder="admin@gmail.com / budi@guru.belajar.id" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+            <p id="loginMessage" class="message error-msg"></p>
+        </div>
+    </div>
+
+    <!-- HALAMAN DASHBOARD UTAMA -->
+    <div id="appSection" class="container hidden">
+        <header class="header">
+            <div>
+                <h1>Dashboard <span id="roleTitleLabel">Sistem</span></h1>
+                <p>Login sebagai: <strong id="userEmailDisplay"></strong> (<span id="roleBadgeDisplay">-</span>)</p>
+            </div>
+            <button id="logoutBtn" class="btn btn-danger">Logout</button>
+        </header>
+
+        <!-- PANEL KHUSUS ADMIN -->
+        <div id="adminPanel" class="card hidden">
+            <h2>Panel Admin: Kelola Akun Pengguna</h2>
+            <p class="section-desc">Tambah atau hapus akun pengguna (Guru & Siswa) secara aman.</p>
+            <form id="createAccountForm" class="grid-form">
+                <div class="form-group">
+                    <label>Email Akun Baru</label>
+                    <input type="email" id="newEmail" placeholder="budi21@guru.belajar.id atau steven721@siswa.belajar.id" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="newPassword" placeholder="Minimal 6 karakter" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="newNama" placeholder="Nama lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label>Kelas</label>
+                    <input type="text" id="newKelas" placeholder="Contoh: XI RPL 1 (Kosongkan jika Guru)">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Pilih Role Akun</label>
+                    <select id="newRole" required>
+                        <option value="">-- Pilih Role --</option>
+                        <option value="guru">Guru (role: guru)</option>
+                        <option value="siswa">Siswa (role: siswa)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success" style="grid-column: span 2;">Buat Akun Baru</button>
+            </form>
+            <p id="adminMsg" class="message"></p>
+        </div>
+
+        <!-- STATISTIK -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Kehadiran</h3>
+                <span id="statTotal">0</span>
+            </div>
+            <div class="stat-card stat-hadir">
+                <h3>Hadir</h3>
+                <span id="statHadir">0</span>
+            </div>
+            <div class="stat-card stat-izin">
+                <h3>Izin</h3>
+                <span id="statIzin">0</span>
+            </div>
+            <div class="stat-card stat-sakit">
+                <h3>Sakit</h3>
+                <span id="statSakit">0</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- FORM ABSENSI -->
+            <div class="card form-card">
+                <h2 id="formCardTitle">Form Absensi</h2>
+                <form id="absensiForm">
+                    <div class="form-group" id="groupPilihSiswa">
+                        <label for="selectSiswa">Pilih Siswa dari Daftar</label>
+                        <select id="selectSiswa">
+                            <option value="">-- Pilih Siswa --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputNama">Nama Lengkap</label>
+                        <input type="text" id="inputNama" placeholder="Nama siswa" required readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inputKelas">Kelas</label>
+                        <input type="text" id="inputKelas" placeholder="Kelas siswa" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputTanggal">Tanggal Absensi</label>
+                        <input type="date" id="inputTanggal" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status Kehadiran</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="status" value="Hadir" required> Hadir</label>
+                            <label><input type="radio" name="status" value="Izin"> Izin</label>
+                            <label><input type="radio" name="status" value="Sakit"> Sakit</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btnSimpanAbsen">Simpan Absensi</button>
+                    <button type="button" id="btnBatalEdit" class="btn btn-danger hidden" style="margin-top: 8px;">Batalkan Edit</button>
+                </form>
+                <p id="absensiMessage" class="message"></p>
+            </div>
+
+            <!-- TABEL / LOG AKTIVITAS -->
+            <div class="card table-card">
+                <h2 id="tableTitle">Log Aktivitas & Riwayat Absensi</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th id="thAksi" class="hidden">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="absensiTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center">Memuat data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
